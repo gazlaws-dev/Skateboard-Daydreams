@@ -4,27 +4,33 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public Character2DController controller;
     public Animator animator;
-    private Rigidbody2D _rigidbody;
+    private Rigidbody2D rb;
 
     void Start()
     {
-        _rigidbody = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Get input from the player
-        if(Mathf.Abs(_rigidbody.velocity.y) > 0 )
+        //If going up
+        if(rb.velocity.y > 0 )
         {
             animator.SetBool("IsJumping", true);
+            animator.SetBool("IsFalling", false);
+            //Debug.Log("jumping to:"+ rb.position);
         }
-
-        if (Mathf.Abs(_rigidbody.velocity.y) == 0)
-        {
+        if (rb.velocity.y < 0)
+        {   //is falling
             animator.SetBool("IsJumping", false);
+            animator.SetBool("IsFalling", true);
+        }
+        if (rb.velocity.y == 0)
+        {   //is falling
+            animator.SetBool("IsJumping", false);
+            animator.SetBool("IsFalling", false);
         }
     }
 

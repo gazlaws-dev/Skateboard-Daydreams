@@ -5,45 +5,36 @@ using UnityEngine;
 
 public class RepeatingBg : MonoBehaviour
 {
+    //Source: https://www.youtube.com/watch?v=P3hcopOkpa8
     private BoxCollider2D boxCollider;
-
     private Rigidbody2D rb;
     private float width;
 
-    public float speed;
-    //public float endX;
-    //public float startX;
-    //private float length;
+    //public float speed;
 
-    //// Use this for initialization
     void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
         rb = GetComponent < Rigidbody2D>();
         width = boxCollider.size.x;
-        rb.velocity = new Vector2(speed, 0);
-    //        length = GetComponent<SpriteRenderer>().bounds.size.x * 2;
+        //infinite move backward
+        rb.velocity = new Vector2(-Global.backgroundSpeed, 0);
     }
 
 
     //// Update is called once per frame
     void Update()
     {
-        if (transform.position.x < -width)
+        //If right edge of bg moved completely behind the character
+        if (transform.position.x+width < 0)
         {
-            //bg moved behind character
             Reposition();
         }
 
-    //    transform.Translate(Vector2.left * speed * Time.deltaTime);
-    //    if(transform.position.x <= endX)
-    //    {
-    //        Vector2 pos = new Vector2(transform.position.x + length, transform.position.y);
-    //        transform.position = pos;
-    //    }
     }
 
     private void Reposition() {
+        //Move forward 2 times - to go just beyond next bg
         Vector2 vector = new Vector2(width * 2f, 0);
         transform.position = (Vector2)transform.position + vector;
     }
